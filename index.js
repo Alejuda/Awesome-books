@@ -1,11 +1,11 @@
-const nameInput = document.getElementById("name");
-const descriptionInput = document.getElementById("description");
-const form = document.getElementById("form");
-const booksContainer = document.getElementById("books-container");
+const nameInput = document.getElementById('name');
+const descriptionInput = document.getElementById('description');
+const form = document.getElementById('form');
+const booksContainer = document.getElementById('books-container');
 
 let books = [];
-if (localStorage.getItem("books-colection") !== null) {
-  books = JSON.parse(localStorage.getItem("books-colection"));
+if (localStorage.getItem('books-colection') !== null) {
+  books = JSON.parse(localStorage.getItem('books-colection'));
 }
 
 const addBook = (name, desc) => {
@@ -21,7 +21,7 @@ const addBook = (name, desc) => {
 
   newBook = {
     id: newId,
-    name: name,
+    name,
     description: desc,
   };
 
@@ -31,13 +31,13 @@ const addBook = (name, desc) => {
 const removeBook = (id) => {
   const remove = books.findIndex((book) => book.id === id);
   books.splice(remove, 1);
-  localStorage.setItem("books-colection", JSON.stringify(books));
+  localStorage.setItem('books-colection', JSON.stringify(books));
 };
 
-const innerBooks = "";
+const innerBooks = '';
 
 function renderBooks() {
-  let innerBooks = "";
+  let innerBooks = '';
   books.forEach((book) => {
     innerBooks += `
     <div class="book-card">
@@ -53,11 +53,11 @@ function renderBooks() {
 
 renderBooks();
 
-form.addEventListener("submit", (e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault();
   addBook(nameInput.value, descriptionInput.value);
-  nameInput.value = "";
-  descriptionInput.value = "";
-  localStorage.setItem("books-colection", JSON.stringify(books));
+  nameInput.value = '';
+  descriptionInput.value = '';
+  localStorage.setItem('books-colection', JSON.stringify(books));
   renderBooks();
 });
