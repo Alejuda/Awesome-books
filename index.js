@@ -52,5 +52,3 @@ form.addEventListener('submit', (e) => {
   localStorage.setItem('books-colection', JSON.stringify(books));
   renderBooks();
 });
-
-// Here we render the books when reload
