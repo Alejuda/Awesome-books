@@ -1,11 +1,11 @@
-const name_input = document.getElementById("name");
-const description_input = document.getElementById("description");
-const form = document.getElementById("form");
-const booksContainer = document.getElementById("books-container");
+const nameInput = document.getElementById('name');
+const descriptionInput = document.getElementById('description');
+const form = document.getElementById('form');
+const booksContainer = document.getElementById('books-container');
 
 let books = [];
-if (localStorage.getItem("books-colection") !== null) {
-    books = JSON.parse(localStorage.getItem("books-colection"))
+if (localStorage.getItem('books-colection') !== null) {
+  books = JSON.parse(localStorage.getItem('books-colection'));
 }
 
 const addBook = (name, desc) => {
@@ -13,7 +13,7 @@ const addBook = (name, desc) => {
   const maxId = Math.max(...ids);
   const newBook = {
     id: maxId + 1,
-    name: name,
+    name,
     description: desc,
   };
   books.push(newBook);
@@ -25,11 +25,11 @@ const removeBook = (id) => {
   localStorage.setItem('books-colection', JSON.stringify(books));
 };
 
-let innerBooks = "";
+const innerBooks = '';
 
 function renderBooks() {
-    let innerBooks = "";
-  books.forEach( book => {
+  let innerBooks = '';
+  books.forEach((book) => {
     innerBooks += `
     <div class="book-card">
       <h2 class="title">${book.name}</h2>
@@ -45,12 +45,12 @@ function renderBooks() {
 renderBooks();
 
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    addBook(name_input.value, description_input.value)
-    name_input.value = '';
-    description_input.value = '';
-    localStorage.setItem('books-colection', JSON.stringify(books))
-    renderBooks();
+  e.preventDefault();
+  addBook(nameInput.value, descriptionInput.value);
+  nameInput.value = '';
+  descriptionInput.value = '';
+  localStorage.setItem('books-colection', JSON.stringify(books));
+  renderBooks();
 });
 
 // Here we render the books when reload
