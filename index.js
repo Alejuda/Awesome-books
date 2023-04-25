@@ -1,20 +1,19 @@
-const name_input = document.getElementById("name");
-const description_input = document.getElementById("description");
-const form = document.getElementById("form");
-const booksContainer = document.getElementById("books-container");
+const nameInput = document.getElementById('name');
+const descriptionInput = document.getElementById('description');
+const form = document.getElementById('form');
+const booksContainer = document.getElementById('books-container');
 
-//creation of the Book List
-class BookList extends Array{
-  
+// creation of the Book List
+class BookList extends Array {
   addBook(newBook) {
-    books.push(newBook);
+    this.push(newBook);
     renderBooks();
   }
 
   removeBook(id) {
-    const remove = books.findIndex((book) => book.id === id);
-    books.splice(remove, 1);
-    localStorage.setItem("books-colection", JSON.stringify(books));
+    const remove = this.findIndex((book) => book.id === id);
+    this.splice(remove, 1);
+    localStorage.setItem('books-colection', JSON.stringify(books));
   }
 }
 
@@ -32,28 +31,21 @@ class Book {
       newId = maxId + 1;
     }
 
-    this.id = newId
+    this.id = newId;
     this.title = title;
     this.author = author;
   }
 }
 
-let books = new BookList();
-
-if (localStorage.getItem("books-colection") !== null) {
-  let localStorageContent = localStorage.getItem("books-colection");
-  books = new BookList (... JSON.parse(localStorageContent));
-}
-
 function renderBooks() {
-  let innerBooks = "";
+  let innerBooks = '';
   if (books.length === 0) {
-    innerBooks = '<h3 class="books-placeholder">You do not have any books yet. Add one below!</h3>'
+    innerBooks = '<h3 class="books-placeholder">You do not have any books yet. Add one below!</h3>';
   } else {
     books.forEach((book, idx) => {
-      let odd = "row-odd";
+      let odd = 'row-odd';
       if (idx % 2 !== 0) {
-        odd = "row-even";
+        odd = 'row-even';
       }
       innerBooks += `
       <div class="book-card ${odd}">
@@ -66,14 +58,22 @@ function renderBooks() {
   }
   booksContainer.innerHTML = innerBooks;
 }
+
+let books = new BookList();
+
+if (localStorage.getItem('books-colection') !== null) {
+  const localStorageContent = localStorage.getItem('books-colection');
+  books = new BookList(...JSON.parse(localStorageContent));
+}
+
 renderBooks();
 
-form.addEventListener("submit", (e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault();
-  let newBook = new Book(name_input.value, description_input.value);
+  const newBook = new Book(nameInput.value, descriptionInput.value);
   books.addBook(newBook);
-  localStorage.setItem("books-colection", JSON.stringify(books));
-  name_input.value = '';
-  description_input.value = '';
+  localStorage.setItem('books-colection', JSON.stringify(books));
+  nameInput.value = '';
+  descriptionInput.value = '';
   renderBooks();
 });
