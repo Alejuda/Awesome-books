@@ -3,6 +3,7 @@ const description_input = document.getElementById("description");
 const form = document.getElementById("form");
 const booksContainer = document.getElementById("books-container");
 
+//creation of the Book List
 class BookList extends Array{
   
   addBook(newBook) {
