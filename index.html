@@ -8,17 +8,28 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="books-container"></div>
-    <form id="form">
-      <input type="text" placeholder="Name" id="name" class="name" />
-      <input
-        type="text"
-        placeholder="Description"
-        id="description"
-        class="description"
-      />
-      <button type="submit">Add</button>
-    </form>
+    <section class="section-container">
+      <h1>All Awesome Books</h1>
+      <div id="books-container" class="books-container"></div>
+      <div class="divisor"></div>
+      <form id="form" class="form-container">
+        <h2 class="form-text">Add a new Book</h2>
+        <input
+          type="text"
+          placeholder="Name"
+          id="name"
+          class="name input-control"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Author"
+          id="description"
+          class="description input-control"
+        />
+        <button type="submit" class="input-control add-button">Add</button>
+      </form>
+    </section>
 
     <script src="index.js"></script>
   </body>
