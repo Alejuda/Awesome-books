@@ -1,63 +1,78 @@
-const nameInput = document.getElementById('name');
-const descriptionInput = document.getElementById('description');
-const form = document.getElementById('form');
-const booksContainer = document.getElementById('books-container');
+const name_input = document.getElementById("name");
+const description_input = document.getElementById("description");
+const form = document.getElementById("form");
+const booksContainer = document.getElementById("books-container");
 
-let books = [];
-if (localStorage.getItem('books-colection') !== null) {
-  books = JSON.parse(localStorage.getItem('books-colection'));
-}
-
-const addBook = (name, desc) => {
-  let newBook = {};
-  let newId = 0;
-  let maxId;
-  const ids = books.map((book) => book.id);
-
-  if (ids.length !== 0) {
-    maxId = Math.max(...ids);
-    newId = maxId + 1;
+class BookList extends Array{
+  
+  addBook(newBook) {
+    books.push(newBook);
+    renderBooks();
   }
 
-  newBook = {
-    id: newId,
-    name,
-    description: desc,
-  };
-
-  books.push(newBook);
-};
-
-const removeBook = (id) => {
-  const remove = books.findIndex((book) => book.id === id);
-  books.splice(remove, 1);
-  localStorage.setItem('books-colection', JSON.stringify(books));
-};
-
-const innerBooks = '';
-
-function renderBooks() {
-  let innerBooks = '';
-  books.forEach((book) => {
-    innerBooks += `
-    <div class="book-card">
-      <h2 class="title">${book.name}</h2>
-      <h3 class="author">${book.description}</h3>
-      <button id="remove-btn" onclick="removeBook(${book.id}), renderBooks()">REMOVE</button>
-    </div>
-    `;
-  });
-
-  booksContainer.innerHTML = innerBooks;
+  removeBook(id) {
+    const remove = books.findIndex((book) => book.id === id);
+    books.splice(remove, 1);
+    localStorage.setItem("books-colection", JSON.stringify(books));
+  }
 }
 
+class Book {
+  constructor(title, author) {
+    if (author === '') {
+      author = 'Unknown Author';
+    }
+    let newId = 0;
+    let maxId;
+    const ids = books.map((book) => book.id);
+
+    if (ids.length !== 0) {
+      maxId = Math.max(...ids);
+      newId = maxId + 1;
+    }
+
+    this.id = newId
+    this.title = title;
+    this.author = author;
+  }
+}
+
+let books = new BookList();
+
+if (localStorage.getItem("books-colection") !== null) {
+  let localStorageContent = localStorage.getItem("books-colection");
+  books = new BookList (... JSON.parse(localStorageContent));
+}
+
+function renderBooks() {
+  let innerBooks = "";
+  if (books.length === 0) {
+    innerBooks = '<h3 class="books-placeholder">You do not have any books yet. Add one below!</h3>'
+  } else {
+    books.forEach((book, idx) => {
+      let odd = "row-odd";
+      if (idx % 2 !== 0) {
+        odd = "row-even";
+      }
+      innerBooks += `
+      <div class="book-card ${odd}">
+        <h2 class="book-title">"${book.title}"</h2>
+        <p class="book-author">By ${book.author}</p>
+        <button class="remove-btn" id="remove-btn" onclick="books.removeBook(${book.id}), renderBooks()">Remove</button>
+      </div>
+      `;
+    });
+  }
+  booksContainer.innerHTML = innerBooks;
+}
 renderBooks();
 
-form.addEventListener('submit', (e) => {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
-  addBook(nameInput.value, descriptionInput.value);
-  nameInput.value = '';
-  descriptionInput.value = '';
-  localStorage.setItem('books-colection', JSON.stringify(books));
+  let newBook = new Book(name_input.value, description_input.value);
+  books.addBook(newBook);
+  localStorage.setItem("books-colection", JSON.stringify(books));
+  name_input.value = '';
+  description_input.value = '';
   renderBooks();
 });
