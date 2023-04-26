@@ -2,6 +2,12 @@ const nameInput = document.getElementById('name');
 const descriptionInput = document.getElementById('description');
 const form = document.getElementById('form');
 const booksContainer = document.getElementById('books-container');
+const contactContainer = document.getElementById('contact-container');
+const sectionTitle = document.getElementById('section-title');
+const listLink = document.getElementById('list-link');
+const addLink = document.getElementById('add-link');
+const contactLink = document.getElementById('contact-link');
+const dateNow = document.getElementById('today-date');
 
 // creation of the Book List
 class BookList extends Array {
@@ -23,13 +29,11 @@ class Book {
       author = 'Unknown Author';
     }
     let newId = 0;
-    let maxId;
-    const ids = books.map((book) => book.id);
-
-    if (ids.length !== 0) {
-      maxId = Math.max(...ids);
-      newId = maxId + 1;
+    let maxId = -1;
+    if (books.length > 0) {
+      maxId = books[books.length - 1].id;
     }
+    newId = maxId + 1;
 
     this.id = newId;
     this.title = title;
@@ -77,3 +81,55 @@ form.addEventListener('submit', (e) => {
   descriptionInput.value = '';
   renderBooks();
 });
+
+listLink.addEventListener('click', () => {
+  if (!booksContainer.classList.contains('show')) {
+    booksContainer.classList.add('show');
+    form.classList.remove('show');
+    contactContainer.classList.remove('show');
+    sectionTitle.innerText = 'All Awesome Books';
+    listLink.classList.add('active');
+    addLink.classList.remove('active');
+    contactLink.classList.remove('active');
+  }
+});
+
+addLink.addEventListener('click', () => {
+  if (!form.classList.contains('show')) {
+    booksContainer.classList.remove('show');
+    form.classList.add('show');
+    contactContainer.classList.remove('show');
+    sectionTitle.innerText = 'Add a new book';
+    listLink.classList.remove('active');
+    addLink.classList.add('active');
+    contactLink.classList.remove('active');
+  }
+});
+
+contactLink.addEventListener('click', () => {
+  if (!contactContainer.classList.contains('show')) {
+    booksContainer.classList.remove('show');
+    form.classList.remove('show');
+    contactContainer.classList.add('show');
+    sectionTitle.innerText = 'Contact Information';
+    listLink.classList.remove('active');
+    addLink.classList.remove('active');
+    contactLink.classList.add('active');
+  }
+});
+
+let date;
+function updateDate() {
+  date = new Date().toLocaleString('default', {
+    month: 'long',
+    year: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: 'true',
+  });
+  dateNow.innerText = date;
+}
+
+setInterval(updateDate, 1000);
